@@ -1,8 +1,5 @@
-import java.io.Serializable;
-
-public class ContaCorrente implements Serializable extends ContaBancaria {
+public class ContaCorrente implements ContaBancaria {
     
-    private static final long serialVersionUID = 1L;
     private int account_number;
     private float balance;
     private Cliente client;
@@ -30,31 +27,31 @@ public class ContaCorrente implements Serializable extends ContaBancaria {
         this.client = client;
 
     }
-
+    @Override
     public int getAccount_number() {
 
         return account_number;
 
     }
-
+    @Override
     public double getBalance() {
 
         return balance;
 
     }
-
+    @Override
     public Cliente getClient() {
 
         return client;
 
     }
-
+    @Override
     public void addBalance(double amount) {
 
         this.balance += amount;
 
     }
-
+    @Override
     public void withdraw(double amount) {
 
         if (amount <= balance) {
@@ -64,7 +61,7 @@ public class ContaCorrente implements Serializable extends ContaBancaria {
         }
 
     }
-
+    @Override
     public void transfer(ContaBancaria destinationAccount, double amount) {
 
         if (amount <= balance) {
@@ -78,6 +75,13 @@ public class ContaCorrente implements Serializable extends ContaBancaria {
 
 
 
-
+    @Override
+    public String toString() {
+        return "ContaCorrente{" +
+               "Número da Conta=" + getAccount_number() +
+               ", Saldo=" + getBalance() +
+               ", Cliente=" + getClient().getName() +
+               '}';
+    }
 
 }

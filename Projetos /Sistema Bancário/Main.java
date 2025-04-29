@@ -1,5 +1,5 @@
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
@@ -8,7 +8,6 @@ public class Main {
         Random random = new Random();
         Banco banco = new Banco();
 
-        
         String[] asciiArt = {   
             "██████╗  █████╗ ███╗   ██╗██╗  ██╗    ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗",
             "██╔══██╗██╔══██╗████╗  ██║██║ ██╔╝    ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║",
@@ -37,7 +36,7 @@ public class Main {
         while(ctrl){
 
             int option = 0;
- 
+
             System.out.println("Escolha uma opção: ");
             System.out.println("1. CRIAR CONTA");
             System.out.println("2. ENTRAR");
@@ -48,24 +47,22 @@ public class Main {
             switch(option){
 
                 case 1 -> {
-                    System.out.println("Bem vindo! Será um prazer tê-lo conosco!");
+                    System.out.println("Bem-vindo! Será um prazer tê-lo conosco!");
                     System.out.println("Vamos começar?");
                     
-                    
-                    banco.addConta(contaCorrente);
-                    
-                    System.out.println("Seja bem vindo!");
+                    banco.addConta(); // Sem passar contaCorrente
+
+                    System.out.println("Seja bem-vindo!");
                 }
 
                 case 2 -> {
-                    System.out.println("Bem vindo de volta! Que bom que você está aqui!");
+                    System.out.println("Bem-vindo de volta! Que bom que você está aqui!");
                     
                     System.out.println("Digite seu CPF: ");
-                    
+                    input.nextLine(); // Limpa o buffer
                     String CPF  = input.nextLine();
                     
                     System.out.println("Digite sua senha: ");
-                    
                     int password = input.nextInt();
                     
                     System.out.println("O que você deseja fazer?");
@@ -114,7 +111,7 @@ public class Main {
                         
                             if (conta != null) {
                                 System.out.println("Digite sua senha: ");
-                                int password = input.nextInt();
+                                password = input.nextInt();
                         
                                 if (conta.getClient().getPassword() == password) {
                                     System.out.println("O seu saldo atual é: " + conta.getBalance());
@@ -130,20 +127,17 @@ public class Main {
                                 }
                             } else {
                                 System.out.println("Conta não encontrada.");
-
                             }
-
                         }
 
                     }
 
                 }
 
-                case 9 ->{
+                case 9 -> {
                     System.out.println("Obrigado por usar nosso sistema! Até logo!");
                     ctrl = false;
                     break;
-
                 }
 
             }
@@ -151,6 +145,4 @@ public class Main {
         }
 
     }
-
 }
-

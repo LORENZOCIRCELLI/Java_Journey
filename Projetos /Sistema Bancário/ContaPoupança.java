@@ -25,7 +25,7 @@ public class ContaPoupança implements ContaBancaria{
         this.client = client;
 
     }
-
+    @Override
     public int getAccount_number() {
 
         return account_number;
@@ -70,5 +70,14 @@ public class ContaPoupança implements ContaBancaria{
         }
 
     }
-    
+
+    @Override
+public String toString() {
+    return "ContaCorrente{" +
+           "Número da Conta=" + getAccount_number() +
+           ", Saldo=" + getBalance() +
+           ", Cliente=" + getClient().getName() +
+           '}';
+}
+
 }
