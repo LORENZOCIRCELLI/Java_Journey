@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -5,8 +6,27 @@ public class Main {
 
     public static void main(String[] args){
 
+        String sistema = System.getProperty("os.name").toLowerCase();
+
+        try {
+            if (sistema.contains("win")) {
+                // Windows usa o comando "cls", mas precisa ser executado dentro do cmd
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                // Linux e macOS usam "clear"
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Random random = new Random();
         Banco banco = new Banco();
+
+        System.out.println();
+        System.out.println();
+
+
 
         String[] asciiArt = {   
             "██████╗  █████╗ ███╗   ██╗██╗  ██╗    ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗",
@@ -37,6 +57,9 @@ public class Main {
 
             int option = 0;
 
+            System.out.println();
+            System.out.println();
+
             System.out.println("Escolha uma opção: ");
             System.out.println("1. CRIAR CONTA");
             System.out.println("2. ENTRAR");
@@ -51,6 +74,7 @@ public class Main {
                     System.out.println("Vamos começar?");
                     
                     banco.addConta(); // Sem passar contaCorrente
+                    
 
                     System.out.println("Seja bem-vindo!");
                 }

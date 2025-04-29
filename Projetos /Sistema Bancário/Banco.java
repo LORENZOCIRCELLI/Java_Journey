@@ -8,6 +8,7 @@ public class Banco implements Serializable {
 
     Scanner input = new Scanner(System.in);
     Random random = new Random();
+    Loading loading = new Loading();
 
     public static final long serialVersionUID = 1L;
 
@@ -24,6 +25,8 @@ public class Banco implements Serializable {
         int password = input.nextInt();
 
         Cliente client = new Cliente(name, cpf, adress, password);
+
+        loading.loadingBar();
 
         System.out.println("Por padrão, você terá uma conta corrente. Posteriormente, você poderá abrir uma conta poupança.");
         int account_number = random.nextInt(10000);
