@@ -80,25 +80,27 @@ public class Main {
                             
                             System.out.println("Digite o número da sua conta: ");
                             int account_number = input.nextInt();
-                            
-                            System.out.println("Digite o valor que você deseja sacar: ");
-
-                            double value = input.nextDouble(); 
-
-                            for(ContaBancaria conta : banco.getContas()){
-
-                                if(conta.getAccount_number() == account_number && conta.getClient().getPassword() == password){
-
+                        
+                            ContaBancaria conta = banco.searchAccount(account_number);
+                        
+                            if (conta != null) {
+                                System.out.println("Digite sua senha: ");
+                                password = input.nextInt();
+                        
+                                if (conta.getClient().getPassword() == password) {
+                                    System.out.println("O seu saldo atual é: " + conta.getBalance());
+                                    System.out.println("Digite o valor que você deseja retirar: ");
+                                    double value = input.nextDouble();
+                        
                                     conta.withdraw(value);
-                                    System.out.println("Saque realizado com sucesso!");
-                                    break;
-
+                        
+                                    System.out.println("Depósito realizado com sucesso!");
+                                    System.out.println("O seu saldo após o depósito é: " + conta.getBalance());
                                 } else {
-                                    System.out.println("Conta não encontrada ou senha incorreta.");
-                                    break;
-
+                                    System.out.println("Senha incorreta.");
                                 }
-
+                            } else {
+                                System.out.println("Conta não encontrada.");
                             }
                             
                         }
