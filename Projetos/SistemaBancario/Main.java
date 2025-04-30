@@ -1,174 +1,113 @@
-import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args){
-
-        String sistema = System.getProperty("os.name").toLowerCase();
-
-        try {
-            if (sistema.contains("win")) {
-                // Windows usa o comando "cls", mas precisa ser executado dentro do cmd
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                // Linux e macOS usam "clear"
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) {
 
         Random random = new Random();
-        Banco banco = new Banco();
-
-        System.out.println();
-        System.out.println();
-
-
-
-        String[] asciiArt = {   
-            "██████╗  █████╗ ███╗   ██╗██╗  ██╗    ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗",
-            "██╔══██╗██╔══██╗████╗  ██║██║ ██╔╝    ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║",
-            "██████╔╝███████║██╔██╗ ██║█████╔╝     ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║",
-            "██╔══██╗██╔══██║██║╚██╗██║██╔═██╗     ╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║",
-            "██████╔╝██║  ██║██║ ╚████║██║  ██╗    ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║",
-            "╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝    ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝",
-            "                                                                                           "
-        };
-
-        for (String linha : asciiArt) {
-            System.out.println(linha);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        System.out.println("\nSistema carregado! Bem-vindo! 🚀");
-
         Scanner input = new Scanner(System.in);
+        Loading loading = new Loading();
+        Banco banco = new Banco();
+        MenuInicial menu = new MenuInicial();
+        Tools tools = new Tools();
+        banco.carregarContas();
 
-        Boolean ctrl = true;
+        String CPF;
+        int password;
 
-        while(ctrl){
+        menu.menuInicial();
 
-            int option = 0;
+        System.out.println("\n\n");
 
-            System.out.println();
-            System.out.println();
+        boolean ctrl = true;
+        boolean ctrl2 =true;
+
+        while (ctrl) {
 
             System.out.println("Escolha uma opção: ");
-            System.out.println("1. CRIAR CONTA");
-            System.out.println("2. ENTRAR");
-            System.out.println("9. SAIR");
+            System.out.println("1. Criar Conta");
+            System.out.println("2. Entrar");
+            System.out.println("9. Sair");
+            System.out.print("Digite a opção desejada: ");
+            
+            ctrl2 =true;
 
-            option = input.nextInt();
+            int option = input.nextInt();
+            input.nextLine(); // Limpa o buffer após o nextInt()
+            
 
-            switch(option){
+            switch (option) {
 
                 case 1 -> {
-                    System.out.println("Bem-vindo! Será um prazer tê-lo conosco!");
+                    tools.cleanScreen();
+                    System.out.println("\nBem-vindo! Será um prazer tê-lo conosco!");
                     System.out.println("Vamos começar?");
-                    
-                    banco.addConta(); // Sem passar contaCorrente
-                    
-
+                    banco.createClient();
                     System.out.println("Seja bem-vindo!");
                 }
 
                 case 2 -> {
                     System.out.println("Bem-vindo de volta! Que bom que você está aqui!");
-                    
-                    System.out.println("Digite seu CPF: ");
-                    input.nextLine(); // Limpa o buffer
-                    String CPF  = input.nextLine();
-                    
-                    System.out.println("Digite sua senha: ");
-                    int password = input.nextInt();
-                    
-                    System.out.println("O que você deseja fazer?");
-                    System.out.println("1. Sacar");
-                    System.out.println("2. Depositar");
-                    System.out.println("3. Transferir");
-                    System.out.println("4. Extrato da Conta");
-                    System.out.println("5. Sair");
-                    
-                    int account_option = input.nextInt();
-                    
-                    switch(account_option){
-                        
-                        case 1 -> {
-                            
-                            System.out.println("Digite o número da sua conta: ");
-                            int account_number = input.nextInt();
-                        
-                            ContaBancaria conta = banco.searchAccount(account_number);
-                        
-                            if (conta != null) {
-                                System.out.println("Digite sua senha: ");
-                                password = input.nextInt();
-                        
-                                if (conta.getClient().getPassword() == password) {
-                                    System.out.println("O seu saldo atual é: " + conta.getBalance());
-                                    System.out.println("Digite o valor que você deseja retirar: ");
-                                    double value = input.nextDouble();
-                        
-                                    conta.withdraw(value);
-                        
-                                    System.out.println("Depósito realizado com sucesso!");
-                                    System.out.println("O seu saldo após o depósito é: " + conta.getBalance());
-                                } else {
-                                    System.out.println("Senha incorreta.");
-                                }
-                            } else {
-                                System.out.println("Conta não encontrada.");
-                            }
-                            
-                        }
-                        
-                        case 2 -> {
-                            System.out.println("Digite o número da sua conta: ");
-                            int account_number = input.nextInt();
-                        
-                            ContaBancaria conta = banco.searchAccount(account_number);
-                        
-                            if (conta != null) {
-                                System.out.println("Digite sua senha: ");
-                                password = input.nextInt();
-                        
-                                if (conta.getClient().getPassword() == password) {
-                                    System.out.println("O seu saldo atual é: " + conta.getBalance());
-                                    System.out.println("Digite o valor que você deseja depositar: ");
-                                    double value = input.nextDouble();
-                        
-                                    conta.addBalance(value);
-                        
-                                    System.out.println("Depósito realizado com sucesso!");
-                                    System.out.println("O seu saldo após o depósito é: " + conta.getBalance());
-                                } else {
-                                    System.out.println("Senha incorreta.");
-                                }
-                            } else {
-                                System.out.println("Conta não encontrada.");
-                            }
-                        }
 
+                    System.out.print("Digite seu CPF: ");
+                    CPF = input.nextLine();
+
+                    System.out.print("Digite sua senha: ");
+                    password = input.nextInt();
+
+                    while (ctrl2) {
+                        System.out.println("\nO que você deseja fazer?");
+                        System.out.println("1. Depositar");
+                        System.out.println("2. Sacar");
+                        System.out.println("3. Transferir");
+                        System.out.println("4. Listar Contas");
+                        System.out.println("5. Voltar");
+                        System.out.print("Digite a opção desejada: ");
+                    
+                        int accountOption = input.nextInt();
+                    
+                        switch (accountOption) {
+                            case 1 -> {
+                                System.out.print("Digite o número da sua conta: ");
+                                int accountNumber = input.nextInt();
+                                banco.depositCorrente(CPF, accountNumber, password);
+                            }
+                            case 2 -> {
+                                System.out.print("Digite o número da sua conta: ");
+                                int accountNumber = input.nextInt();
+                                banco.withdrawCorrente(CPF, accountNumber, password);
+                            }
+                            case 3 -> {
+                                System.out.println("Função de transferência ainda não implementada.");
+                            }
+                            case 4 -> {
+                                banco.listContas(CPF, password);
+                            }
+                            case 5 -> {
+                                System.out.println("Voltando ao menu principal...");
+                                ctrl2 = false;
+                            }
+                            default -> {
+                                System.out.println("Opção inválida.");
+                            }
+                        }
                     }
-
                 }
+                    
 
                 case 9 -> {
                     System.out.println("Obrigado por usar nosso sistema! Até logo!");
                     ctrl = false;
-                    break;
+                    banco.salvarContas();
                 }
 
+                default -> {
+                    System.out.println("Opção inválida. Tente novamente.");
+                }
             }
-
         }
 
+        input.close();
     }
 }

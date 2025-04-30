@@ -1,13 +1,22 @@
 public class ContaCorrente implements ContaBancaria {
+
     
     private int account_number;
     private float balance;
     private Cliente client;
+    private int password;
 
     public ContaCorrente(int account_number, float balance, Cliente client) {
         this.account_number = account_number;
         this.balance = balance;
         this.client = client;
+    }
+
+    public ContaCorrente(int account_number, float balance, Cliente client, int password) {
+        this.account_number = account_number;
+        this.balance = balance;
+        this.client = client;
+        this.password = password;
     }
 
     public void setAccount_number(int account_number) {
@@ -27,6 +36,20 @@ public class ContaCorrente implements ContaBancaria {
         this.client = client;
 
     }
+    public void setPassword(int password){
+
+        this.password = password;
+
+    }
+
+    @Override
+    public int getPassword() {
+
+        return password;
+
+    }
+
+
     @Override
     public int getAccount_number() {
 
@@ -45,12 +68,13 @@ public class ContaCorrente implements ContaBancaria {
         return client;
 
     }
-    @Override
+
     public void addBalance(double amount) {
 
         this.balance += amount;
 
     }
+ 
     @Override
     public void withdraw(double amount) {
 
@@ -72,8 +96,13 @@ public class ContaCorrente implements ContaBancaria {
         }
 
     }
+    @Override
+    public String getType(){
 
+        String type = "Conta Corrente";
+        return type;
 
+    }
 
     @Override
     public String toString() {
